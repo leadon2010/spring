@@ -54,6 +54,26 @@
 					</tbody>
 				</table>
 
+				<!-- paging.. -->
+				<div class="pull-right">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev}">
+							<li class="paginate_button previous"><a href="${pageMaker.startPage - 1}">Previous</a></li>
+						</c:if>
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+							<li class="paginate_button ${pageMaker.cri.pageNum == num ? 'active' : ''}"><a
+									href="${num }">${num}</a></li>
+						</c:forEach>
+						<c:if test="${pageMaker.next}">
+							<li class="paginate_button Next"><a href="${pageMaker.endPage + 1}">Next</a></li>
+						</c:if>
+					</ul>
+				</div>
+
+				<form action="/board/list" id="actionForm" method="get">
+					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+				</form>
 
 				<!-- Modal -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -91,10 +111,8 @@
 		var result = '<c:out value="${result}" />';
 
 		checkModal(result);
-		
-		console.log('before state : ', history.state)
+
 		history.replaceState({}, null, null);
-		console.log('after state : ', history.state)
 
 		function checkModal(result) {
 
@@ -107,8 +125,18 @@
 			$("#myModal").modal("show");
 		}
 
+		// 등록버튼.
 		$("#regBtn").on("click", function () {
 			self.location = "/board/register"
+		})
+
+		// 페이지 링크
+		var actionForm = $('#actionForm');
+
+		$('.pagenate_button a').on('click', function (e) {
+			e.preventDefault();
+			actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
+			actionForm.submit();
 		})
 	})
 </script>
