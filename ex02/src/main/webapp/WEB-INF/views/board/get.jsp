@@ -17,22 +17,22 @@
 			<div class="panel-heading">Board Read Page</div>
 			<!-- /.panel-heading -->
 			<div class="panel-body">
-				<form role="form" action="/board/register" method="post">
+				<form id="operForm" role="form" action="/board/modify" method="get">
 					<div class="form-group">
 						<label>Bno</label><input type="text" class="form-control" name="bno"
 							value='<c:out value="${board.bno }" />' readonly>
 					</div>
 					<div class="form-group">
-						<label>Title</label><input type="text" class="form-control" name="title"
+						<label>Title</label><input type="text" class="form-control"
 							value='<c:out value="${board.title }" />' readonly>
 					</div>
 					<div class="form-group">
 						<label>Text area</label>
-						<textarea class="form-control" name="content" id="" cols="30" rows="3"
+						<textarea class="form-control" cols="30" rows="3"
 							readonly><c:out value="${board.content }" /></textarea>
 					</div>
 					<div class="form-group">
-						<label>Writer</label><input type="text" class="form-control" name="writer"
+						<label>Writer</label><input type="text" class="form-control"
 							value='<c:out value="${board.writer }" />' readonly>
 					</div>
 					<button data-oper="modify" class="btn btn-default">Modify</button>
@@ -42,4 +42,19 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	console.log('before state : ', history.state);
+	$(document).ready(function () {
+		var operForm = $('form');
+		$('button[data-oper="modify"]').on('click', function (e) {
+			operForm.attr('action', '/board/modify').submit();
+		})
+
+		$('button[data-oper="list"]').on('click', function () {
+			operForm.find('#bno').remove(); // 파라미터로 값을 넘기는 걸 안보이도록 한다.
+			operForm.attr('action', '/board/list');
+			operForm.submit();
+		})
+	})
+</script>
 <jsp:include page="../includes/footer.jsp"></jsp:include>

@@ -92,10 +92,12 @@
 
 		checkModal(result);
 		
-		//history.replaceState({}, null, null);
+		console.log('before state : ', history.state)
+		history.replaceState({}, null, null);
+		console.log('after state : ', history.state)
 
 		function checkModal(result) {
-			console.log('state : ', history.state)
+
 			if (result === '' || history.state) {
 				return;
 			}
